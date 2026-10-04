@@ -65,7 +65,7 @@ app.add_middleware(
 )
 
 
-@app.get("/", tags=["General"])
+@app.api_route("/", methods=["GET", "HEAD"], tags=["General"])
 async def root():
     """Root info endpoint."""
     return {
@@ -79,7 +79,7 @@ async def root():
     }
 
 
-@app.get("/health", response_model=HealthResponse, tags=["Monitoring"])
+@app.api_route("/health", methods=["GET", "HEAD"], response_model=HealthResponse, tags=["Monitoring"])
 async def health():
     """Health check endpoint to inspect API status and configured credentials."""
     keys = settings.groq_keys
@@ -169,3 +169,12 @@ async def enrich_product(request: ProductEnrichmentRequest) -> ProductEnrichment
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="An unexpected error occurred during product enrichment analysis."
         )
+
+
+if __name__ == "__main__":
+    import os
+    import uvicorn
+
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("app.main:app", host="0.0.0.0", port=port)
+
