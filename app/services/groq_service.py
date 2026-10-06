@@ -54,35 +54,41 @@ SELECTIVITY RULES BY FIELD:
 2. suitable_body_types: Select top 2 to 3 body types whose silhouette is enhanced by the garment's cut and proportions. Do NOT return all 5.
 3. suitable_occasions: Be culturally accurate and comprehensive! Assign all appropriate occasions from the allowed list (typically 4 to 8 for versatile garments).
 
-INDIAN ETHNIC & KURTA RULES (CRITICAL):
+INDIAN ETHNIC & WEDDING/KURTA RULES (CRITICAL):
 - Carefully detect Indian ethnic garments: Kurtas (mandarin/nehru collar, long tunic length to thighs/knees, side slits, front plackets), Kurti, Saree, Lehenga, Sherwani, Nehru jacket, Anarkali, ethnic sets.
-- IF THE GARMENT IS A KURTA OR INDIAN ETHNIC WEAR:
-  * Kurtas are quintessential Indian traditional and festive attire!
-  * You MUST include relevant Indian festivals and celebrations from the allowed list:
-    - Essential festive occasions: "Diwali", "Eid", "Navratri", "Durga Puja", "Ganesh Chaturthi", "Raksha Bandhan", "Party".
-    - If celebratory / embroidered / festive / silk / vibrant: also include "Wedding", "Karwa Chauth", "Dinner".
-    - If daily-wear cotton or printed: include Indian festivals ("Diwali", "Raksha Bandhan", "Ganesh Chaturthi", "Durga Puja", "Eid") AS WELL AS daytime occasions ("Casual", "College", "Office").
-  * NEVER classify a Kurta purely as Western casual (e.g. only Casual, College, Brunch). It MUST include Indian festive and cultural occasions!
+- OCCASION ACCURACY:
+  * HEAVY / BRIDAL / GROOM WEAR (e.g. Royal Sherwanis with turbans/shawls, bridal Lehengas, heavy Silk Sarees):
+    - Must include: "Wedding", "Party" (sangeet/reception).
+    - Can include major festivals: "Diwali", "Karwa Chauth", "Eid".
+    - NEVER assign "Dinner", "Brunch", "Casual", "College", or "Office" to heavy bridal/groom wedding wear like a Sherwani! Nobody wears a groom sherwani to a casual dinner.
+  * VERSATILE / SEMI-FORMAL ETHNIC WEAR (Festive Kurtas, printed kurtas, Nehru jacket sets):
+    - Include: "Diwali", "Eid", "Navratri", "Durga Puja", "Ganesh Chaturthi", "Raksha Bandhan", "Party", "Wedding".
+  * DAILY COTTON KURTAS / CASUAL ETHNIC:
+    - Include Indian festivals ("Diwali", "Raksha Bandhan", "Ganesh Chaturthi", "Durga Puja", "Eid") AND daily daytime wear ("Casual", "College", "Office").
 
-WESTERN & DAILY WEAR RULES:
-- Loungewear / nightwear / basic pyjamas / sweatpants: "Casual", "Travel", "Brunch". (Do NOT select Wedding, Diwali, Office).
-- Formal suits / blazers / formal shirts: "Office", "Interview", "Formal", "College".
-- Western party dresses / cocktail outfits: "Party", "Date", "Dinner", "Brunch".
-- Beachwear / swimwear: "Beach", "Travel", "Casual".
+OCCASION GUIDE FOR "Dinner" & "Brunch":
+- "Dinner": Assign ONLY to evening date night outfits, chic cocktail/party dresses, smart casual dinner shirts, or evening blazers. NEVER assign "Dinner" to heavy traditional wedding attire or sleepwear.
+- "Brunch": Assign ONLY to relaxed daytime casuals, sundresses, linen shirts, or light daytime loungewear.
 
-DETAILED STYLING CRITERIA:
-- suitable_body_types (Select 2 to 3 best matches based on silhouette):
-  * Hourglass: Fitted waists, wrap silhouettes, bodycon, tailored kurtas/dresses with defined waist.
-  * Pear: A-line skirts/kurtas, boat necks, statement collars, structured shoulders, flared bottoms.
-  * Apple: Empire waists, vertical paneling, fluid straight kurtas, V-necks, flowy silhouettes.
-  * Rectangle: Belts, peplum, defined waistbands, flared anarkalis, horizontal detailing.
-  * Inverted Triangle: Wide-leg bottoms, flared silhouettes, scoop or deep V-necks, softening broad shoulders.
+SKIN TONE STYLING GUIDE (SELECT TOP 2 TO 3 MOST COMPLEMENTARY):
+- "Fair" and "Light":
+  * Flattered by soft pastels (blush pink, powder blue, peach, mint, lilac, lavender).
+  * Flattered by light neutrals and regal metallics: Ivory, cream, beige, champagne, off-white, silver, antique gold (e.g. an ivory/cream groom sherwani or pastel kurta looks stunning on Fair and Light skin).
+  * High-contrast bold hues: Deep maroon, navy blue, ruby red, and emerald green provide a striking, gorgeous contrast on Fair and Light complexions.
+- "Wheatish" and "Dusky":
+  * Flattered by warm earth tones: Mustard, rust, terracotta, olive green, warm ochre, marigold.
+  * Flattered by rich jewel tones: Deep maroon, wine, teal, royal blue, peacock green, warm gold.
+  * Flattered by warm neutrals: Warm beige, tan, cream.
+- "Deep":
+  * Flattered by vibrant high-contrast colors: Crisp white, bright yellow, cobalt blue, fuchsia, orange.
+  * Flattered by rich metallic gold, bronze, emerald, and deep jewel tones.
 
-- suitable_skin_tones (Select 2 to 3 best matches based on color theory):
-  * Rich jewel tones (maroon, royal blue, emerald, deep purple, mustard, wine) -> Wheatish, Dusky, Deep.
-  * Warm earth tones (rust, terracotta, olive, golden yellow) -> Wheatish, Dusky, Deep.
-  * Pastels and cool tones (mint, powder blue, blush pink, lavender) -> Fair, Light (or high-contrast Deep).
-  * Neutrals, crisp white, deep black -> select the 2-3 skin tones that create the best aesthetic harmony.
+DETAILED BODY TYPE CRITERIA (Select 2 to 3 best matches based on silhouette):
+- Hourglass: Fitted waists, wrap silhouettes, bodycon, tailored kurtas/dresses with defined waist.
+- Pear: A-line skirts/kurtas, boat necks, statement collars, structured shoulders, flared bottoms.
+- Apple: Empire waists, vertical paneling, fluid straight kurtas, V-necks, flowy silhouettes.
+- Rectangle: Belts, peplum, defined waistbands, flared anarkalis, straight sherwanis with structured shoulders.
+- Inverted Triangle: Wide-leg bottoms, flared silhouettes, scoop or deep V-necks, structured jackets/sherwanis balancing broad shoulders.
 
 REMINDER:
 - These fields represent which users and occasions the CLOTHING PRODUCT is visually flattering and suitable for.
@@ -91,9 +97,9 @@ REMINDER:
 OUTPUT FORMAT:
 Return ONLY a valid JSON object with no additional text or explanation:
 {{
-  "suitable_skin_tones": ["Wheatish", "Dusky"],
-  "suitable_body_types": ["Rectangle", "Pear"],
-  "suitable_occasions": ["Diwali", "Eid", "Navratri", "Raksha Bandhan", "Wedding", "Party", "Casual"]
+  "suitable_skin_tones": ["Fair", "Light", "Wheatish"],
+  "suitable_body_types": ["Rectangle", "Inverted Triangle"],
+  "suitable_occasions": ["Wedding", "Party"]
 }}
 """
 
