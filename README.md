@@ -80,6 +80,13 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 Interactive OpenAPI Swagger UI is available at:
 👉 **`http://localhost:8000/docs`**
 
+### 5. Run the Streamlit UI
+To launch the interactive visual testing dashboard:
+```bash
+streamlit run streamlit_app.py
+```
+Opens in your browser at 👉 **`http://localhost:8501`**
+
 ---
 
 ## 📡 API Usage
