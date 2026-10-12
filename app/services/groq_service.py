@@ -50,7 +50,7 @@ ALLOWED OCCASIONS:
 {json.dumps(VALID_OCCASIONS)}
 
 SELECTIVITY RULES BY FIELD:
-1. suitable_skin_tones: Select top 2 to 3 most flattering skin tones based on color harmony, undertones, and contrast. Do NOT return all 5 unless truly universal.
+1. suitable_skin_tones: Select STRICTLY the top 2 most flattering skin tones based on color harmony, undertones, and contrast. Return ONLY 2 values (never more, never fewer).
 2. suitable_body_types: Select top 2 to 3 body types whose silhouette is enhanced by the garment's cut and proportions. Do NOT return all 5.
 3. suitable_occasions: Be culturally accurate and comprehensive! Assign all appropriate occasions from the allowed list (typically 4 to 8 for versatile garments).
 
@@ -70,7 +70,7 @@ OCCASION GUIDE FOR "Dinner" & "Brunch":
 - "Dinner": Assign ONLY to evening date night outfits, chic cocktail/party dresses, smart casual dinner shirts, or evening blazers. NEVER assign "Dinner" to heavy traditional wedding attire or sleepwear.
 - "Brunch": Assign ONLY to relaxed daytime casuals, sundresses, linen shirts, or light daytime loungewear.
 
-SKIN TONE STYLING GUIDE (SELECT TOP 2 TO 3 MOST COMPLEMENTARY):
+SKIN TONE STYLING GUIDE (SELECT STRICTLY TOP 2 COMPLEMENTARY SKIN TONES):
 - "Fair" and "Light":
   * Flattered by soft pastels (blush pink, powder blue, peach, mint, lilac, lavender).
   * Flattered by light neutrals and regal metallics: Ivory, cream, beige, champagne, off-white, silver, antique gold (e.g. an ivory/cream groom sherwani or pastel kurta looks stunning on Fair and Light skin).
@@ -97,7 +97,7 @@ REMINDER:
 OUTPUT FORMAT:
 Return ONLY a valid JSON object with no additional text or explanation:
 {{
-  "suitable_skin_tones": ["Fair", "Light", "Wheatish"],
+  "suitable_skin_tones": ["Fair", "Light"],
   "suitable_body_types": ["Rectangle", "Inverted Triangle"],
   "suitable_occasions": ["Wedding", "Party"]
 }}
@@ -270,12 +270,18 @@ class GroqVisionService:
 
         # Strictly filter against fixed whitelist
         valid_skin = filter_skin_tones(raw_skin)
+        if len(valid_skin) > 2:
+            valid_skin = valid_skin[:2]
+        elif len(valid_skin) == 1:
+            pair_map = {"Fair": "Light", "Light": "Fair", "Wheatish": "Dusky", "Dusky": "Wheatish", "Deep": "Dusky"}
+            fallback = pair_map.get(valid_skin[0], "Wheatish")
+            if fallback not in valid_skin:
+                valid_skin.append(fallback)
+        elif not valid_skin:
+            valid_skin = ["Wheatish", "Dusky"]
+
         valid_body = filter_body_types(raw_body)
         valid_occasions = filter_occasions(raw_occasions)
-
-        # Fallbacks for extreme edge cases where model filtered down to empty
-        if not valid_skin:
-            valid_skin = ["Wheatish", "Light"]
         if not valid_body:
             valid_body = ["Rectangle", "Hourglass"]
         if not valid_occasions:
